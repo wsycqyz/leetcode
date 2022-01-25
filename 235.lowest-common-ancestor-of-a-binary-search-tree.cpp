@@ -17,60 +17,32 @@
 
 class Solution {
 public:
-    bool preorder(TreeNode* root, TreeNode* t) {
-        if (root==NULL) {
-            return false;
-        }
-        if (root==t) {
-            return true;
-        }
-        if (root->left) {
-            if (preorder(root->left, t)) {
-                return true;
-            }
-        }
-        if (root->right) {
-            if (preorder(root->right, t)) {
-                return true;
-            }
-        }
-        return false;
-    }
     TreeNode* lowestCommonAncestor(TreeNode* root, TreeNode* p, TreeNode* q) {  
-        TreeNode *tmp;
-        if (root==NULL) {
+        TreeNode* tmp;
+        if (p==NULL||q==NULL||root==NULL) {
             return NULL;
         }
-        if (p==root) {
-            if (preorder(root->left, q) || preorder(root->right, q)) {
-                return root;
-            }
-        }
-        if (q==root) {
-            if (preorder(root->left, p) || preorder(root->right, p)) {
-                return root;
-            }
+        if (p->val>q->val) {
+            tmp=p;
+            p=q;
+            q=tmp;
         }
 
-        if (preorder(root->left, p)&&preorder(root->right, q)) {
-            return root;
-        }
-        if (preorder(root->left, q)&&preorder(root->right, p)) {
+        if (root->val>=p->val&&root->val<=q->val) {
             return root;
         }
         tmp=NULL;
-        tmp=lowestCommonAncestor(root->left, p, q);
-        if (tmp) return tmp;
-        tmp=NULL;
-        tmp=lowestCommonAncestor(root->right, p, q);
-        if (tmp) return tmp;
-        return NULL;
-    }
-    void printvector(vector<int>& n) {
-        for (int i=0;i<n.size();i++) {
-            cout<<n[i]<<" ";
+        if (root->val<p->val) {
+            tmp=lowestCommonAncestor(root->right, p, q);
         }
-        cout<<endl;
+        if (tmp!=NULL) {
+            return tmp;
+        }
+        tmp=NULL;
+        if (root->val>q->val) {
+            tmp=lowestCommonAncestor(root->left, p, q);
+        }
+        return tmp;
     }
 };
 // @lc code=end
