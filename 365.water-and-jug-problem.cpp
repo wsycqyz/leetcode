@@ -43,7 +43,8 @@ public:
             states.insert(new state(0, b));
             states.insert(new state(a, 0));
             states.insert(new state(min(jug1Capacity,b+a), (b<jug1Capacity-a)?0:(b-(jug1Capacity-a))));
-            states.insert(new state((a+b<jug2Capacity)?0:(a-(jug2Capacity-b)), min(b+a,jug2Capacity)));            set<state*>::iterator i,j;
+            states.insert(new state((a+b<jug2Capacity)?0:(a-(jug2Capacity-b)), min(b+a,jug2Capacity)));
+            set<state*>::iterator i,j;
             state *t1,*t2;
             bool flag;
             for (i=states.begin();i!=states.end();i++) {
