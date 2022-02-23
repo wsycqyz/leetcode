@@ -30,13 +30,11 @@ public:
         cout << endl;
         if (root->left&&root->right) {
             re=max(re, max(a+root->val,b+root->val));
-            re=max(re, a+b+root->val);
-            re=max(re, root->val);
+            re=max(re, max(a+b+root->val, root->val));
             //cout << root->val << " " << max(a+root->val, b+root->val) << endl;
             return max(root->val, max(a+root->val, b+root->val));
         }
-        re=max(re, c+root->val);
-        re=max(re, root->val);
+        re=max(re, max(c+root->val,root->val));
         //cout << root->val << " " << max(c+root->val, root->val) << endl;
         return max(c+root->val, root->val);
         
@@ -46,10 +44,7 @@ public:
         if (!root) return 0;
         re=root->val;
         max1=helper(root);
-        if (re) {
-            return max(re,max1);
-        }
-        return max1;
+        return max(re,max1);
     }
 };
 // @lc code=end
