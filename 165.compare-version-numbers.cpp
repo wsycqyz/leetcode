@@ -33,7 +33,6 @@ public:
                 b=atoi(version2.c_str());
                 version2="";
             }
-            cout << a << "," << b <<endl;
             if (a<b) {
                 return -1;
             } else if (a>b) {

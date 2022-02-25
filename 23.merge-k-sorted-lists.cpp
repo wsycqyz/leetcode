@@ -17,54 +17,39 @@
  */
 class Solution {
 public:
-    void merge(ListNode* a, ListNode *b) {
-        ListNode* pre=NULL,*tmp;
-        while (a&&b) {
-            if (a->val<=b->val) {
-                pre=a;
+    ListNode* merge(ListNode* a, ListNode *b) {
+        ListNode dummy;
+        ListNode *curr=&dummy;
+        while(a&&b) {
+            if (a->val<b->val) {
+                curr->next=a;
                 a=a->next;
             } else {
-                if (pre) {
-                    tmp=b->next;
-                    pre->next=b;
-                    b->next=a;
-                    pre=b;
-                    b=tmp;
-                } else {
-                    swap(a->val, b->val);
-                    tmp=b->next;
-                    b->next=a->next;
-                    a->next=b;
-                    pre=a;
-                    a=b;
-                    b=tmp;
-                }
+                curr->next=b;
+                b=b->next;
             }
+            curr=curr->next;
         }
-        if (!a&&b) {
-            if (pre) {
-                pre->next=b;
-            }
+        if (a) {
+            curr->next=a;
+        } else {
+            curr->next=b;
         }
+        return dummy.next;
     }
 
     ListNode* mergeKLists(vector<ListNode*>& lists) {
-        ListNode* re;
-        if (lists.size()==0) {
-            return NULL;
+        int n=lists.size();
+        int i;
+        int interval=1;
+        if (n==0) return NULL;
+        while(interval<n) {
+            for(i=0;i<n-interval;i=i+interval*2) {
+                lists[i]=merge(lists[i],lists[i+interval]);
+            }
+            interval*=2;
         }
-        int i=0,j=0;
-        while(i<lists.size() && lists[i]==NULL) { 
-            i++;
-        }
-        if (i==lists.size()) {
-            return NULL;
-        }
-        cout << i << endl;
-        for (j=i+1;j<lists.size();j++) {
-            merge(lists[i], lists[j]);
-        }
-        return lists[i];
+        return lists[0];
     }
 };
 // @lc code=end
