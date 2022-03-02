@@ -9,18 +9,12 @@ class Solution {
 public:
     vector<int> countBits(int n) {
         vector<int> re;
-        int i,j,k,x;
+        int i,j;
         re.push_back(0);
-        if (n==0) return re;        
+        if (n==0) return re;
         for (i=1;i<=n;i++) {
-            k=i;x=0;
-            while(k!=0) {
-                //cout << k << " ";
-                if (k&1) x++;
-                k=k>>1;
-            }
-            //cout << x << endl;
-            re.push_back(x);
+            j=re[i&(i-1)]+1;
+            re.push_back(j);
         }
         return re;
     }
