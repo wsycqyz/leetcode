@@ -18,30 +18,36 @@
 class Solution {
 public:
     ListNode* deleteDuplicates(ListNode* head) {
-        ListNode *pre=NULL,*a=head,*b;
-        bool found;
-        if (!head) return head;
-        while(a&&a->next) {
-            b=a->next;
-            found=false;
-            while(b&&a->val==b->val) {
-                b=b->next;
-                found=true;
+        if (!head||!head->next) return head;
+        ListNode dummy(INT_MAX);
+        dummy.next = head;
+        ListNode *pre = &dummy;
+        ListNode *cur = head;
+        bool flag;
+
+        while(cur&&cur->next) {
+            int val = cur->val;
+            flag = false;
+            while(cur->next&&val==cur->next->val) {
+                flag = true;
+                ListNode *tmp;
+                tmp=cur->next;
+                cur->next = cur->next->next;
+                //delete tmp;                
             }
-            if (!found) {
-                pre=a;
-                a=b;
-                continue;
-            }
-            if (pre) {
-                pre->next=b;
-                a=b;
+            if (flag) {
+                ListNode *tmp;
+                tmp=cur;
+                pre->next = cur->next;
+                cur=pre->next;
+                //delete tmp;
             } else {
-                head=b;
-                a=b;
+                pre = cur;
+                cur = cur->next;
             }
         }
-        return head;
+
+        return dummy.next;
     }
 };
 // @lc code=end
