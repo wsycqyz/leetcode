@@ -24,33 +24,33 @@ public:
             B = nums2;
         }
 
-        int left = 0, right = A.size()-1;
+        int left = 0, right = A.size();
         while (true) {
             i = (left + right) / 2; //A
-            j = half - i - 2; //B            
+            j = (len1+len2+1)/2 - i; //B            
 
-            if (i>=0) {
-                Aleft = A[i];
+            if (i>0) {
+                Aleft = A[i-1];
             } else {
                 Aleft = INT_MIN;
             }
-            if (i+1<A.size()) {
-                Aright = A[i+1];
+            if (i<A.size()) {
+                Aright = A[i];
             } else {
                 Aright = INT_MAX;
             }            
-            if (j>=0) {
-                Bleft = B[j];
+            if (j>0) {
+                Bleft = B[j-1];
             } else {
                 Bleft = INT_MIN;
             }
-            if (j+1<B.size()) {
-                Bright = B[j+1];
+            if (j<B.size()) {
+                Bright = B[j];
             } else {
                 Bright = INT_MAX;
             }
 
-            if (Aleft <= Bright && Bleft <= Aright) {
+            if (Aleft <= Bright) {
                 if (total % 2) {
                     return min((double)Aright, (double)Bright);
                 }
