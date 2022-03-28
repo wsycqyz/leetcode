@@ -8,59 +8,34 @@
 class Solution {
 public:
     double findMedianSortedArrays(vector<int>& nums1, vector<int>& nums2) {
-        vector<int> A;
-        vector<int> B;
-        int i,j;
-        int Aleft, Aright, Bleft, Bright;
-        int len1 = nums1.size();
-        int len2 = nums2.size();
-        int total = len1 + len2;
-        int half = (total) / 2;
-        if (len2 < len1) {
-            A = nums2;
-            B = nums1;
-        } else {
-            A = nums1;
-            B = nums2;
+        if (nums1.size() > nums2.size()) {
+            return findMedianSortedArrays(nums2, nums1);
         }
 
-        int left = 0, right = A.size();
-        while (true) {
-            i = (left + right) / 2; //A
-            j = (len1+len2+1)/2 - i; //B            
+        int m = nums1.size();
+        int n = nums2.size();
+        int left = 0, right = m;
+        int median1 = 0, median2 = 0;
 
-            if (i>0) {
-                Aleft = A[i-1];
-            } else {
-                Aleft = INT_MIN;
-            }
-            if (i<A.size()) {
-                Aright = A[i];
-            } else {
-                Aright = INT_MAX;
-            }            
-            if (j>0) {
-                Bleft = B[j-1];
-            } else {
-                Bleft = INT_MIN;
-            }
-            if (j<B.size()) {
-                Bright = B[j];
-            } else {
-                Bright = INT_MAX;
-            }
+        while (left <= right) {
+            int i = (left+right)/2;
+            int j = (m+n+1)/2-i;
 
-            if (Aleft <= Bright) {
-                if (total % 2) {
-                    return min((double)Aright, (double)Bright);
-                }
-                return (max((double)Aleft, (double)Bleft) + min((double)Aright, (double)Bright)) / 2;
-            } else if (Aleft > Bright) {
-                right = i - 1;
+            int nums_im1 = (i==0?INT_MIN:nums1[i-1]);
+            int nums_i=(i==m?INT_MAX:nums1[i]);
+            int nums_jm1 = (j==0?INT_MIN:nums2[j-1]);
+            int nums_j = (j==n?INT_MAX:nums2[j]);
+
+            if (nums_im1<=nums_j) {
+                median1 = max(nums_im1, nums_jm1);
+                median2 = min(nums_i, nums_j);
+                left = i+1;
             } else {
-                left = i + 1;
+                right = i-1;
             }
         }
+
+        return (m+n)%2 ==0 ? (median1+median2)/2.0: median1;
     }
 };
 // @lc code=end
